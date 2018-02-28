@@ -8,26 +8,35 @@ public class MusicManager : MonoBehaviour {
     private MusicManager instance = null;
     private AudioSource audioSource;
 
-    public Slider slider;
+    private Slider volumeSlider;
 
     private void Start()
     {
-        
-        if (instance = null)
-        {
-            instance = this;
-        } else if(instance != null)
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
+            print("Duplicate music player self destructing");
         }
-        DontDestroyOnLoad(gameObject);
-        slider.value = PlayerPrefs.GetFloat("volume");
-        audioSource = GetComponent<AudioSource>();
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+            audioSource = GetComponent<AudioSource>();
+            audioSource.Play();
+            volumeSlider = GameObject.Find("Volume").GetComponent<Slider>();
+            volumeSlider.value = PlayerPrefs.GetFloat("volume");
+           
+            
+        }
+        
     }
 
     // Update is called once per frame
     void Update () {
-        PlayerPrefs.SetFloat("volume", slider.value);
-        audioSource.volume = slider.value;
+        if (volumeSlider)
+        {
+            PlayerPrefs.SetFloat("volume", volumeSlider.value);
+            audioSource.volume = volumeSlider.value;
+        }
     }
 }

@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Ball : NetworkBehaviour {
     public float speed = 30f;
+    public Text scoreP1;
+    public Text scoreP2;
+    public Text time;
 
     private AudioSource audioSource;
-
+    private int gameTime;
     private Rigidbody2D rigidBody;
     private int score1 = 0;
     private int score2 = 0;
+    private float lastUpdate;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +24,7 @@ public class Ball : NetworkBehaviour {
         speed *= PlayerPrefs.GetInt("difficulty");
         rigidBody.velocity = Vector2.right * speed;
         audioSource = GetComponent<AudioSource>();
+        gameTime = PlayerPrefs.GetInt("gameTime");
 	}
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -40,9 +47,13 @@ public class Ball : NetworkBehaviour {
         if(collision.gameObject.name == "LeftWall")
         {
             score2++;
+            scoreP2.text = score2.ToString();
+            PlayerPrefs.SetInt("scorePlayer2", score2);
         } else if(collision.gameObject.name == "RightWall")
         {
             score1++;
+            scoreP1.text = score1.ToString();
+            PlayerPrefs.SetInt("scorePlayer1", score1);
         }
 
         audioSource.Play();
@@ -55,6 +66,26 @@ public class Ball : NetworkBehaviour {
 
     // Update is called once per frame
     void Update () {
-		
+        UpdateGameTime();
+        time.text = gameTime.ToString();
 	}
+
+    void UpdateGameTime()
+    {
+        if(Time.time - lastUpdate >= 1f)
+        {
+            gameTime--;
+            lastUpdate = Time.time;
+            EndGame();
+        }
+    }
+
+    void EndGame()
+    {
+        if(gameTime <= 0)
+        {
+            SceneManager.LoadScene(2);
+            PlayerPrefs.SetInt("gameTime", 0);
+        }
+    }
 }
