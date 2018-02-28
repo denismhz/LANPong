@@ -5,10 +5,13 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PongBall : MonoBehaviour {
     Rigidbody rigidBody;
+    public float speed = 20f;
+
 
 	// Use this for initialization
 	void Start () {
         rigidBody = GetComponent<Rigidbody>();
+        Invoke("StartBall", 2f);
 	}
 	
 	// Update is called once per frame
@@ -18,8 +21,13 @@ public class PongBall : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        //direction = collision.transform.position;
-        //rigidBody.velocity = direction + bounceVelocity;
-        rigidBody.velocity = new Vector3(1f * CrossPlatformInputManager.GetAxis("Horizontal") , 20f, 0f);
+
+        rigidBody.AddForce(-collision.transform.position * speed);
+        Debug.Log("addforce");
+    }
+
+    void StartBall()
+    {
+        rigidBody.velocity = Vector3.up * 20;
     }
 }
