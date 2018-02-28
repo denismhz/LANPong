@@ -5,30 +5,26 @@ using UnityEngine.UI;
 
 public class MusicManager : MonoBehaviour {
 
-    private MusicManager instance = null;
+    private static MusicManager instance;
     private AudioSource audioSource;
 
     private Slider volumeSlider;
 
-    private void Start()
+    private void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            print("Duplicate music player self destructing");
-        }
-        else
+        if(instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
-            audioSource = GetComponent<AudioSource>();
-            audioSource.Play();
-            volumeSlider = GameObject.Find("Volume").GetComponent<Slider>();
-            volumeSlider.value = PlayerPrefs.GetFloat("volume");
-           
-            
+        } else if (instance != this)
+        {
+            Destroy(gameObject);
+            Debug.Log("second mp destroyed");
         }
-        
+        DontDestroyOnLoad(gameObject);
+        audioSource = GetComponent<AudioSource>();
+        audioSource.Play();
+        volumeSlider = GameObject.Find("Volume").GetComponent<Slider>();
+        volumeSlider.value = PlayerPrefs.GetFloat("volume");
     }
 
     // Update is called once per frame

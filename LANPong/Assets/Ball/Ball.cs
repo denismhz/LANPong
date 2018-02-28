@@ -17,6 +17,7 @@ public class Ball : NetworkBehaviour {
     private int score1 = 0;
     private int score2 = 0;
     private float lastUpdate;
+    private MyNetworkManager myNetwork;
 
 	// Use this for initialization
 	void Start () {
@@ -25,6 +26,7 @@ public class Ball : NetworkBehaviour {
         rigidBody.velocity = Vector2.right * speed;
         audioSource = GetComponent<AudioSource>();
         gameTime = PlayerPrefs.GetInt("gameTime");
+        
 	}
 
     private void OnCollisionEnter2D(Collision2D collision)

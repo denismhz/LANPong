@@ -7,15 +7,12 @@ public class MyNetworkManager : NetworkManager {
 
 	// Use this for initialization
 	void Start () {
-        StartHost();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(PlayerPrefs.GetInt("gameTime") <= 0)
+        if(PlayerPrefs.GetInt("gameTime") <= 0)
         {
-
-            StopServer();
             StopHost();
         }
 	}
