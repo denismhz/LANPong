@@ -12,6 +12,8 @@ public class ScoreEnd : MonoBehaviour {
     void Start () {
         score1.text = "LeftPlayerScore:\n\n" + PlayerPrefs.GetInt("scorePlayer1").ToString();
         score2.text = "RightPlayerScore:\n\n" + PlayerPrefs.GetInt("scorePlayer2").ToString();
+        PlayerPrefs.SetInt("scorePlayer1", 0);
+        PlayerPrefs.SetInt("scorePlayer2", 0);
     }
 	
 	// Update is called once per frame

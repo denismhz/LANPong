@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class Ball : NetworkBehaviour {
+public class Ball : MonoBehaviour {
     public float speed = 30f;
     public Text scoreP1;
     public Text scoreP2;
@@ -17,7 +17,6 @@ public class Ball : NetworkBehaviour {
     private int score1 = 0;
     private int score2 = 0;
     private float lastUpdate;
-    private MyNetworkManager myNetwork;
 
 	// Use this for initialization
 	void Start () {
@@ -33,13 +32,12 @@ public class Ball : NetworkBehaviour {
     {
         if(!(collision.gameObject.tag == "Wall"))
         {
-            if (!isClient)
+            if (collision.gameObject.name == "Player1")
             {
                 float x = HitObject(transform.position, collision.transform.position, collision.collider.bounds.size.y);
                 Vector2 s = new Vector2(1, x);
                 rigidBody.velocity = s * speed;
-            }
-            else
+            } else if (collision.gameObject.name == "Player2")
             {
                 float y = HitObject(transform.position, collision.transform.position, collision.collider.bounds.size.y);
                 Vector2 d = new Vector2(-1, y);
@@ -88,6 +86,7 @@ public class Ball : NetworkBehaviour {
         {
             SceneManager.LoadScene(2);
             PlayerPrefs.SetInt("gameTime", 0);
+            
         }
     }
 }

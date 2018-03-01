@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour {
     {
         gameTime = int.Parse(input.text);
         PlayerPrefs.SetInt("gameTime", gameTime);
-        Debug.Log(gameTime);
     }
 
 }

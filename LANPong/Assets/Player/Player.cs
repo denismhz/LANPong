@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
-using UnityEngine.Networking;
 
-public class Player : NetworkBehaviour {
+public class Player : MonoBehaviour {
     public float speed = 30;
 
     private Rigidbody2D rigidBody;
@@ -21,12 +20,8 @@ public class Player : NetworkBehaviour {
 
     private void FixedUpdate()
     {
-        if (!isClient)
-        {
-            return;
-        }
-        float input = CrossPlatformInputManager.GetAxis("Vertical");
-        //TEST moving with transform
-        rigidBody.velocity = new Vector2(0, input * speed);
+            float input = CrossPlatformInputManager.GetAxis("Vertical");
+            //TEST moving with transform
+            rigidBody.velocity = new Vector2(0, input * speed);
     }
 }

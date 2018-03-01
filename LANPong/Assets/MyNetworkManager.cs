@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class MyNetworkManager : NetworkManager {
 
 	// Use this for initialization
 	void Start () {
+        StartServer();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if(PlayerPrefs.GetInt("gameTime") <= 0)
-        {
-            StopHost();
-        }
-	}
+        Debug.Log(NetworkServer.connections.Count);
+    }
+
+    public void ConnectClient()
+    {
+        StartClient();
+    }
 }
